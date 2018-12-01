@@ -5,3 +5,8 @@ src/Adam/__pycache__/
 src/Nestrov/__pycache__/
 src/Poly/__pycache__/
 src/RMSProp/__pycache__/
+src/t10k-images-idx3-ubyte.gz
+src/t10k-labels-idx1-ubyte.gz
+src/train-images-idx3-ubyte.gz
+src/train-labels-idx1-ubyte.gz
+

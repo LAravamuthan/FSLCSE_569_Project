@@ -21,19 +21,19 @@ def mnist(noTrSamples=1000, noTsSamples=100, \
     assert noTrSamples==noTrPerClass*len(digit_range), 'noTrSamples and noTrPerClass mismatch'
     assert noTsSamples==noTsPerClass*len(digit_range), 'noTrSamples and noTrPerClass mismatch'
     data_dir = os.path.join(datasets_dir, '')
-    fd = open('train-images.idx3-ubyte')
+    fd = open('train-images-idx3-ubyte')
     loaded = np.fromfile(file=fd, dtype=np.uint8)
     trData = loaded[16:].reshape((60000, 28*28)).astype(float)
 
-    fd = open('train-labels.idx1-ubyte')
+    fd = open('train-labels-idx1-ubyte')
     loaded = np.fromfile(file=fd, dtype=np.uint8)
     trLabels = loaded[8:].reshape((60000)).astype(float)
 
-    fd = open('t10k-images.idx3-ubyte')
+    fd = open('t10k-images-idx3-ubyte')
     loaded = np.fromfile(file=fd, dtype=np.uint8)
     tsData = loaded[16:].reshape((10000, 28*28)).astype(float)
 
-    fd = open('t10k-labels.idx1-ubyte')
+    fd = open('t10k-labels-idx1-ubyte')
     loaded = np.fromfile(file=fd, dtype=np.uint8)
     tsLabels = loaded[8:].reshape((10000)).astype(float)
 

@@ -32,23 +32,40 @@ def unison_shuffled_copies(a, b):
     return a[p].T, b[p].T;
 
 
-def getTrainAndValidationAccuracy(train_data_act, train_label_act, validation_data, validation_label, parameters):
+def getTrainAndValidationAccuracy(train_data_act, train_label_act, validation_data, validation_label, test_data,
+                                  test_act, parameters):
     # compute the accuracy for training set, validation set and testing set by predicting them first
     trPred, train_loss = DNNS.classify(train_data_act, parameters, train_label_act);
     vdPred, validation_loss = DNNS.classify(validation_data, parameters, validation_label);
+    tsPred, test_loss = DNNS.classify(test_data, parameters, test_act);
     trAcc = accuracy(trPred, train_label_act);
     valAcc = accuracy(vdPred, validation_label);
+    tsAcc = accuracy(tsPred, test_act);
     print("Accuracy for training set is {0:0.3f} %".format(trAcc));
     print("Accuracy for validation set is {0:0.3f} %".format(valAcc));
+    print("Accuracy for test set is {0:0.3f} %".format(tsAcc));
 
 
-def plotWithCosts(num_iterations, costList, is_batch_comparision=True, net_dims=[], batch_size=5000, total_size=5000):
+def plotWithCosts(num_iterations, costList, is_batch_comparision=True, net_dims=[], batch_size=5000, total_size=5000,
+                  is_learning_comparision=False, learning_rate=0, OT=0):
     # PLOT of costs vs iterations
     # here plot our results where our x axis would be the 1 to no. of iteration with interval of 10
     # y axis would be costs list for training and validation set
-
-    presionSize = 1/(total_size/batch_size);
+    colorlist = ["blue", "green", "red", "yellow", "magenta", "black", "orange", "cyan"]
+    presionSize = 1 / (total_size / batch_size);
     iterations = [i for i in np.arange(0, num_iterations, presionSize)];
+    c = 0;
+    title = "Training loss for %s dimensions multi layer neurons" % str(net_dims[:len(net_dims) - 1]);
+    if is_batch_comparision:
+        title += " \n With Learaning rate  " + str(learning_rate);
+        title += " \n and Optimatization Technique   " + desent_optimzation_map[OT];
+    else:
+        if is_learning_comparision:
+            title += " \n  With Batch Size  " + str(batch_size);
+            title += " \n  and Optimatization Technique   " + desent_optimzation_map[OT];
+        else:
+            title += " \n  With Learaning rate  " + str(learning_rate);
+            title += " \n  With Batch Size  " + str(batch_size);
     for key in costList:
         label = "";
         if is_batch_comparision:
@@ -56,8 +73,12 @@ def plotWithCosts(num_iterations, costList, is_batch_comparision=True, net_dims=
             presionSize = 1 / (total_size / key);
             iterations = [i for i in np.arange(0, num_iterations, presionSize)];
         else:
-            label = desent_optimzation_map[key];
-        plt.plot(iterations, costList[key], label=label);
+            if is_learning_comparision:
+                label = "learning rate of " + str(key);
+            else:
+                label = desent_optimzation_map[key];
+        plt.plot(iterations, costList[key], label=label, color=colorlist[c % len(colorlist)]);
+        c += 1
     plt.legend();
-    plt.title("Training errors for %s dimensions multi layer neurons" % str(net_dims[:len(net_dims) - 1]));
+    plt.title(title);
     plt.show();

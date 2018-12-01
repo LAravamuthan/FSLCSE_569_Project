@@ -399,7 +399,7 @@ def main():
 
     train_data_act, train_label_act = UF.unison_shuffled_copies(train_data_act.T, train_label_act.T);
 
-    inp = int(input("Enter 1 for comparing Batch Sizes or 2 for Comparing GDO techniques:"));
+    inp = int(input("Enter 1 for comparing Batch Sizes or 2 for Comparing different Gradient Descent Optimization techniques and 3 for comparing differernt learning rates:"));
     costsList = {};
     parametersList = {};
     batch_Size = 5000;
@@ -408,8 +408,8 @@ def main():
         is_batch_comparision = True;
         gdo_opt = int(input("Enter the GDO type : "));
         learning_rate = float(input("Learning rate, you want to check for: "));
-        # batch_Sizes = [1, 50, 100, 500, 5000];
-        batch_Sizes = [500, 100, 5000];
+        batch_Sizes = [100,500,5000];
+        #batch_Sizes = [500, 100, 5000];
 
         for x in batch_Sizes:
             tic = time.time();
@@ -422,9 +422,9 @@ def main():
             print("For batch size : " + str(x) + "time taken was :" + str(toc - tic));
             costsList[x] = costs;
             parametersList[x] = parameters;
-            UF.getTrainAndValidationAccuracy(train_data_act, train_label_act, validation_data, validation_label,
+            UF.getTrainAndValidationAccuracy(train_data_act, train_label_act, validation_data, validation_label, test_data, test_label,
                                              parameters);
-
+        UF.plotWithCosts(num_iterations, costsList, is_batch_comparision, net_dims, batch_size=batch_Size, OT=gdo_opt, learning_rate=learning_rate);
     if inp == 2:
         is_batch_comparision = False;
         batch_Size = int(input("Enter the Batch Size you want to test for : "));
@@ -441,11 +441,30 @@ def main():
             print("For GDO : " + UF.desent_optimzation_map[key] + "time taken was :" + str(toc - tic));
             costsList[key] = costs;
             parametersList[key] = parameters;
-            UF.getTrainAndValidationAccuracy(train_data_act, train_label_act, validation_data, validation_label,
+            UF.getTrainAndValidationAccuracy(train_data_act, train_label_act, validation_data, validation_label,test_data,test_label,
                                              parameters);
-
-
-    UF.plotWithCosts(num_iterations, costsList, is_batch_comparision, net_dims, batch_size=batch_Size);
+        UF.plotWithCosts(num_iterations, costsList, is_batch_comparision, net_dims, batch_size=batch_Size, learning_rate=learning_rate);
+    if inp == 3:
+        is_batch_comparision = False;
+        is_learning_comparision = True;
+        batch_Size = int(input("Enter the Batch Size you want to test for : "));
+        gdo_opt = int(input("Enter the GDO type : "));
+        learning_rates = [0.01,0.1,0.5,1]
+        for learning_rate in learning_rates:
+            tic = time.time();
+            costs, _, parameters = multi_layer_network(train_data_act, train_label_act, validation_data,
+                                                       validation_label,
+                                                       net_dims, \
+                                                       num_iterations=num_iterations, learning_rate=learning_rate,
+                                                       descent_optimization_type=gdo_opt, batch_size=batch_Size);
+            toc = time.time();
+            print("For GDO : " + UF.desent_optimzation_map[gdo_opt] + "time taken was :" + str(toc - tic));
+            costsList[learning_rate] = costs;
+            parametersList[learning_rate] = parameters;
+            UF.getTrainAndValidationAccuracy(train_data_act, train_label_act, validation_data, validation_label,
+                                             test_data, test_label,
+                                             parameters);
+        UF.plotWithCosts(num_iterations, costsList, is_batch_comparision, net_dims, batch_size=batch_Size,is_learning_comparision=True, OT=gdo_opt);
 
 
 if __name__ == "__main__":
