@@ -46,7 +46,7 @@ def getTrainAndValidationAccuracy(train_data_act, train_label_act, validation_da
     print("Accuracy for test set is {0:0.3f} %".format(tsAcc));
 
 
-def plotWithCosts(num_iterations, costList, is_batch_comparision=True, net_dims=[], batch_size=5000, total_size=5000,
+def plotWithCosts(num_iterations, costList, is_batch_comparision=True, net_dims=[], batch_size=512, total_size=10240,
                   is_learning_comparision=False, learning_rate=0, OT=0):
     # PLOT of costs vs iterations
     # here plot our results where our x axis would be the 1 to no. of iteration with interval of 10

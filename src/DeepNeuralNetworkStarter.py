@@ -402,7 +402,7 @@ def main():
     inp = int(input("Enter 1 for comparing Batch Sizes or 2 for Comparing different Gradient Descent Optimization techniques and 3 for comparing differernt learning rates:"));
     costsList = {};
     parametersList = {};
-    batch_Size = 5000;
+    batch_Size = 10240;
     is_batch_comparision = True;
     if inp == 1:
         is_batch_comparision = True;
@@ -449,7 +449,7 @@ def main():
         is_learning_comparision = True;
         batch_Size = int(input("Enter the Batch Size you want to test for : "));
         gdo_opt = int(input("Enter the GDO type : "));
-        learning_rates = [0.01,0.1,0.5,1]
+        learning_rates = [0.0001,0.001,0.01,0.1,0.5,1,5]
         for learning_rate in learning_rates:
             tic = time.time();
             costs, _, parameters = multi_layer_network(train_data_act, train_label_act, validation_data,
