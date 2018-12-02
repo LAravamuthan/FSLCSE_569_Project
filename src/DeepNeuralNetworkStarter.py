@@ -383,19 +383,19 @@ def main():
     digit_range = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     # dummy training data, but next set of data to be used as test data
     validation_data, validation_label, test_data, test_label = \
-        LMP.mnist(noTrSamples=1000, noTsSamples=1000, \
+        LMP.mnist(noTrSamples=2560, noTsSamples=2560, \
                   digit_range=digit_range, \
-                  noTrPerClass=100, noTsPerClass=100);
+                  noTrPerClass=256, noTsPerClass=256);
 
     # real training data, but next set of data to be used as validation data
     train_data_act, train_label_act, validation_data_new, validation_label_new = \
-        LMP.mnist(noTrSamples=5000, noTsSamples=1000, \
+        LMP.mnist(noTrSamples=10240, noTsSamples=1000, \
                   digit_range=digit_range, \
-                  noTrPerClass=500, noTsPerClass=100);
+                  noTrPerClass=1024, noTsPerClass=100);
 
     # initialize learning rate and num_iterations
     learning_rate = 0.1;
-    num_iterations = 5;
+    num_iterations = 100;
 
     train_data_act, train_label_act = UF.unison_shuffled_copies(train_data_act.T, train_label_act.T);
 
@@ -450,6 +450,7 @@ def main():
         batch_Size = int(input("Enter the Batch Size you want to test for : "));
         gdo_opt = int(input("Enter the GDO type : "));
         learning_rates = [0.0001,0.001,0.01,0.1,0.5,1,5]
+        #learning_rates = [0.0001, 0.001];
         for learning_rate in learning_rates:
             tic = time.time();
             costs, _, parameters = multi_layer_network(train_data_act, train_label_act, validation_data,

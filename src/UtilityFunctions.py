@@ -46,7 +46,7 @@ def getTrainAndValidationAccuracy(train_data_act, train_label_act, validation_da
     print("Accuracy for test set is {0:0.3f} %".format(tsAcc));
 
 
-def plotWithCosts(num_iterations, costList, is_batch_comparision=True, net_dims=[], batch_size=512, total_size=10240,
+def plotWithCosts(num_iterations, costList, is_batch_comparision=True, net_dims=[], batch_size=5000, total_size=10240,
                   is_learning_comparision=False, learning_rate=0, OT=0):
     # PLOT of costs vs iterations
     # here plot our results where our x axis would be the 1 to no. of iteration with interval of 10
@@ -57,14 +57,14 @@ def plotWithCosts(num_iterations, costList, is_batch_comparision=True, net_dims=
     c = 0;
     title = "Training loss for %s dimensions multi layer neurons" % str(net_dims[:len(net_dims) - 1]);
     if is_batch_comparision:
-        title += " \n With Learaning rate  " + str(learning_rate);
-        title += " \n and Optimatization Technique   " + desent_optimzation_map[OT];
+        title += " \n With Learning rate  " + str(learning_rate);
+        title += " \n and Optimization Technique   " + desent_optimzation_map[OT];
     else:
         if is_learning_comparision:
             title += " \n  With Batch Size  " + str(batch_size);
-            title += " \n  and Optimatization Technique   " + desent_optimzation_map[OT];
+            title += " \n  and Optimization Technique   " + desent_optimzation_map[OT];
         else:
-            title += " \n  With Learaning rate  " + str(learning_rate);
+            title += " \n  With Learning rate  " + str(learning_rate);
             title += " \n  With Batch Size  " + str(batch_size);
     for key in costList:
         label = "";
